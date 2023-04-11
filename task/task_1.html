@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Taks 1</title>
+</head>
+
+<body>
+   <a href="../index.html">До задач</a>
+   <p> Описати масив об’єктів – сайтів розроблених компанією з такими властивостями:</p>
+   <ul>
+      <li>
+         <p>назва компанії на час розробки (назву періодично змінюють)</p>
+      </li>
+      <li>
+         <p>власник компанії</p>
+      </li>
+      <li>
+         <p>споснсори (масив спонсорів)</p>
+         <ul>
+            <li>прізвище спонсора</li>
+            <li>ім’я спонсора</li>
+            <li>сума вкладень спонсора</li>
+         </ul>
+      </li>
+      <li>
+         <p>рік випуску</p>
+      </li>
+      <li>
+         <p>вартість сайту</p>
+      </li>
+   </ul>
+   <p>Знайти:</p>
+   <ol>
+      <li>загальну вартість усіх сайтів</li>
+      <li>кількість сайтів, що було зроблено між 2000 та 2009 рр.</li>
+      <li>кількість сайтів, де сума спонсорських вкладень була більшою за 100000</li>
+      <li>створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив)</li>
+      <li>знайти рік, коли прибуток був найбільшим</li>
+      <li>упорядкувати список за спаданням прибутку</li>
+      <li> Створити 2 окремих списки з копіями об’єктів, що містять сайти з вартість до 10000 і більше 10000</li>
+   </ol>
+
+   <script>
+      const sites = [
+         {
+            name: 'Company X',
+            host: 'Arew Pupkin',
+            sponsors: [
+               {
+                  surname: "Ivanov",
+                  firstName: 'Alex',
+                  contributionSumm: 1200,
+               },
+               {
+                  surname: "Shevchenko",
+                  firstName: 'Taras',
+                  contributionSumm: 3200,
+               },
+               {
+                  surname: "Petrov",
+                  firstName: 'Oleg',
+                  contributionSumm: 4000,
+               }
+            ],
+            yearOfManufacture: 1989,
+            sitePrice: 5000,
+         },
+         {
+            name: 'Company Y',
+            host: 'Arew Pupkin',
+            sponsors: [
+               {
+                  surname: "Ivanov",
+                  firstName: 'Alex',
+                  contributionSumm: 1200,
+               },
+               {
+                  surname: "Shevchenko",
+                  firstName: 'Taras',
+                  contributionSumm: 5100,
+               },
+               {
+                  surname: "Petrov",
+                  firstName: 'Oleg',
+                  contributionSumm: 10000,
+               }
+            ],
+            yearOfManufacture: 2022,
+            sitePrice: 2000,
+         },
+         {
+            name: 'Company A',
+            host: 'Arew Pupkin',
+            sponsors: [
+               {
+                  surname: "Ivanov",
+                  firstName: 'Alex',
+                  contributionSumm: 1200,
+               },
+               {
+                  surname: "Shevchenko",
+                  firstName: 'Taras',
+                  contributionSumm: 5100,
+               },
+               {
+                  surname: "Petrov",
+                  firstName: 'Oleg',
+                  contributionSumm: 10000,
+               }
+            ],
+            yearOfManufacture: 2001,
+            sitePrice: 10000,
+         }
+      ]
+
+      //загальну вартість усіх сайтів
+      function getSumm(arr, variable) {
+         return arr.reduce((summ, site) => summ + site[variable], 0)
+      }
+
+      //кількість сайтів, що було зроблено між 2000 та 2009 рр.
+      function getAmountSitesBetweenDates(arr, startDate, endDate) {
+         return arr.reduce((counterSites, site) => site.yearOfManufacture >= startDate && site.yearOfManufacture <= endDate ? counterSites + 1 : counterSites, 0)
+      }
+
+      // кількість сайтів, де сума спонсорських вкладень була більшою за 100000
+      function getAmountSitesWhereСontributionSummGreaterValue(arr, value) {
+         let counterSites = 0
+         for (const site of arr) {
+            //краще так як я зробив, чи можна було записати все в один рядок і в такому випадку це теж вважається нормальним для читання?
+            const sponsors = site.sponsors
+            const summInvest = sponsors.reduce((summ, sponsor) => sponsor.contributionSumm + summ, 0)
+            if (summInvest > value) counterSites += 1
+         }
+         return counterSites
+      }
+
+      //створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив)
+      function createListValue(arr, value) {
+         const list = []
+         for (const site of arr) {
+            list.push(site[value])
+         }
+         return list
+      }
+
+      // знайти рік, коли прибуток був найбільшим
+      function getYearWithMaxProfit(arr) {
+         // шукаємо максимальий прибуток
+         let maxProfit = -Infinity
+         for (const profit of arr) {
+            profit.sitePrice > maxProfit ? maxProfit = profit.sitePrice : maxProfit
+         }
+
+         // 
+         let indexMaxProfit = arr.findIndex(item => item.sitePrice === maxProfit)
+
+         return arr[indexMaxProfit].yearOfManufacture
+      }
+
+      //упорядкувати список за спаданням прибутку
+      function sortDescendingValue(arr, value) {
+         return arr.sort((a, b) => a[value] < b[value] ? 1 : -1)
+      }
+
+      //Створити 2 окремих списки з копіями об’єктів, що містять сайти з вартість до 10000 і більше 10000
+      function createArrLessValue(arr, value) {
+         let arrLessValue = []
+         let arrGreaterValue = []
+         for (const site of arr) {
+            if (site.sitePrice < value) arrLessValue.push(JSON.parse(JSON.stringify(site)))
+            else arrGreaterValue.push(JSON.parse(JSON.stringify(site)))
+         }
+         return [arrLessValue, arrGreaterValue]
+      }
+
+      console.log(getSumm(sites, 'sitePrice'))
+      console.log(getAmountSitesBetweenDates(sites, 2000, 2009))
+      console.log(getAmountSitesWhereСontributionSummGreaterValue(sites, 10000))
+      console.log(createListValue(sites, 'sponsors'));
+      console.log(getYearWithMaxProfit(sites))
+      console.log(sortDescendingValue(sites, 'sitePrice'))
+      console.log(createArrLessValue(sites, 10000))
+
+   </script>
+</body>
+
+</html>

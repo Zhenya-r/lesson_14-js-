@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Task 2</title>
+</head>
+
+<body>
+   <a href="../index.html">До задач</a>
+   <p>Розробити функцію, у яку передають об’єкт (день, місяць, рік). Визначити, який буде рік через N місяців.</p>
+
+   <script>
+      const date = {
+         day: 11,
+         month: 4,
+         year: 2023,
+      }
+
+      //20
+
+      function calcYear(obj, month) {
+         let yaer = obj.year
+         let yearInMonth = Math.floor(month / 12)
+
+         return month % 12 + obj.month > 12 ? yaer + yearInMonth + 1 : yaer + yearInMonth
+      }
+
+      console.log(calcYear(date, 20));
+
+   </script>
+</body>
+
+</html>
